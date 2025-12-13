@@ -128,7 +128,10 @@ ifeq ("$(origin O)", "command line")
   KBUILD_OUTPUT := $(O)
 endif
 
-ifneq ($(KBUILD_OUTPUT),)
+ifndef KBUILD_OUTPUT
+  KBUILD_OUTPUT := $(CURDIR)/out
+endif
+
 # Make's built-in functions such as $(abspath ...), $(realpath ...) cannot
 # expand a shell special character '~'. We use a somewhat tedious way here.
 abs_objtree := $(shell mkdir -p $(KBUILD_OUTPUT) && cd $(KBUILD_OUTPUT) && pwd)
@@ -137,9 +140,6 @@ $(if $(abs_objtree),, \
 
 # $(realpath ...) resolves symlinks
 abs_objtree := $(realpath $(abs_objtree))
-else
-abs_objtree := $(CURDIR)
-endif # ifneq ($(KBUILD_OUTPUT),)
 
 ifeq ($(abs_objtree),$(CURDIR))
 # Suppress "Entering directory ..." unless we are changing the work directory.

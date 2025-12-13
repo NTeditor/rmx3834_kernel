@@ -6,11 +6,11 @@ RUN apt-get update && \
   apt-get clean && \
   apt-get autoclean
 
-COPY . /root/kernel-source/
-
 RUN git clone --depth 1 --single-branch --branch android-12.0.0_r0.16 \
   https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 \
   /root/clang/
+
+COPY . /root/kernel-source/
 
 ENV PATH="/root/clang/clang-r416183b/bin:$PATH" \
   LLVM="1" \
@@ -18,6 +18,7 @@ ENV PATH="/root/clang/clang-r416183b/bin:$PATH" \
   CLANG_TRIPLE="aarch64-linux-gnu-" \
   KERNEL_DIR="/root/kernel-source" \
   KERNEL_ROOT="/root/kernel-source" \
-  ARCH="arm64"
+  ARCH="arm64" \
+  KBUILD_OUTPUT="out"
 
 WORKDIR /root/kernel-source/
