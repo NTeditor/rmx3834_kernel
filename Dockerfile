@@ -8,6 +8,10 @@ RUN apt-get update && \
 
 COPY . /root/kernel-source/
 
+RUN git clone --depth 1 --single-branch --branch android-12.0.0_r0.16 \
+  https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 \
+  /root/clang/
+
 ENV PATH="/root/clang/clang-r416183b/bin:$PATH" \
   LLVM="1" \
   CROSS_COMPILE="aarch64-linux-gnu-" \
