@@ -2,13 +2,15 @@ FROM ubuntu:24.04
 
 RUN apt-get update && \
   apt-get install -y git bc bison flex build-essential libssl-dev libncurses-dev \
-  make gcc-aarch64-linux-gnu cpio curl unzip kmod && \
+  make gcc-aarch64-linux-gnu cpio && \
   apt-get clean && \
-  apt-get autoclean
+  apt-get autoclean && \
+  rm -rf /var/lib/apt/lists/*
 
 RUN git clone --depth 1 --single-branch --branch android-12.0.0_r0.16 \
   https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 \
-  /root/clang/
+  /root/clang/ && \
+  rm -rf /root/clang/.git/
 
 COPY . /root/kernel-source/
 
